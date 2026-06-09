@@ -5,12 +5,14 @@ import Login from "./components/login";
 import Sign from "./components/sign";
 import { AuthContext } from "@/context/AuthContext";
 import { LockKeyholeOpen, ShieldCheck, Zap } from "lucide-react";
+import OtpInput from "./components/OtpInput";
+import ForgotPassword from "./components/forgate"
+import ResetPassword from "./components/resetPassword";
 
 export default function Home() {
   const context = useContext(AuthContext)
   if (!context) return null
-  const { mood, setMood } = context;
-
+  const { setScreen, screen } = context;
   return (
     <div className="min-h-screen bg-[#0b1120] text-white overflow-hidden relative">
 
@@ -30,9 +32,9 @@ export default function Home() {
 
         <button
           className="bg-cyan-400 text-black px-4 sm:px-5 py-2 rounded-xl font-semibold hover:bg-cyan-300 transition-all duration-300 text-sm sm:text-base"
-          onClick={() => setMood(!mood)}
+          onClick={() => { screen === "signup" ? setScreen("login") : setScreen("signup") }}
         >
-          {mood ? "Login" : "Sign Up"}
+          {screen == "signup" ? "Login" : "Sign Up"}
         </button>
       </nav>
 
@@ -97,7 +99,11 @@ export default function Home() {
 
         {/* Right Side */}
         <div className="w-full flex justify-center">
-          {mood ? <Sign /> : <Login />}
+          {screen === "login" && <Login />}
+          {screen === "signup" && <Sign />}
+          {screen === "forgot" && <ForgotPassword />}
+          {screen === "otp" && <OtpInput />}
+          {screen === "reset" && <ResetPassword />}
         </div>
 
       </section>

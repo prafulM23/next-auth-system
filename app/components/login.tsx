@@ -1,13 +1,19 @@
 "use client"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { AuthContext } from "@/context/AuthContext";
 export default function Login() {
     const [loading, setLoading] = useState<boolean>(false)
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const navigate = useRouter()
+
+    const context = useContext(AuthContext)
+    if (!context) return null
+    const { screen, setScreen } = context
+
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -98,6 +104,28 @@ export default function Login() {
                     >
                         {loading ? "Logging in..." : "Login Account"}
                     </button>
+
+                    <div className="flex items-center justify-between text-sm mt-2">
+
+                        <button
+                            type="button"
+
+                            onClick={() => setScreen("forgot")}
+
+                            className="text-cyan-400 hover:text-cyan-300 transition-all"
+                        >
+                            Forgot Password?
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setScreen("signup")}
+                            className="text-cyan-400 hover:text-cyan-300 transition-all"
+                        >
+                            Create Account
+                        </button>
+
+                    </div>
                 </form>
             </div>
         </div>
